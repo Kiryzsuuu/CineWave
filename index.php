@@ -1,3 +1,5 @@
 <?php
-// Entry point for Azure Nginx default root to forward to Laravel public
-require __DIR__ . '/public/index.php';
+// Simple redirect to public directory
+header('Location: /public/');
+exit();
+?>
