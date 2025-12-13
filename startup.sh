@@ -13,19 +13,19 @@ if [ ! -d "vendor" ]; then
 fi
 
 # Set permissions
-chmod -R 755 storage bootstrap/cache
+chmod -R 755 storage bootstrap/cache 2>/dev/null || true
 
-# Clear and cache config
-php artisan config:clear
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+# Clear all caches first
+php artisan config:clear 2>/dev/null || true
+php artisan route:clear 2>/dev/null || true
+php artisan view:clear 2>/dev/null || true
+php artisan cache:clear 2>/dev/null || true
 
-# Copy custom nginx config
-cp /home/site/wwwroot/nginx-default.conf /etc/nginx/sites-available/default 2>/dev/null || true
+# Only cache config (NOT routes - causes 404 issues with nginx)
+php artisan config:cache 2>/dev/null || true
+php artisan view:cache 2>/dev/null || true
 
-# Reload nginx
-nginx -s reload 2>/dev/null || service nginx restart
+# DO NOT cache routes - it breaks with Azure nginx proxy
+# php artisan route:cache
 
-# Start PHP-FPM
-php-fpm
+echo "Laravel application started!"
