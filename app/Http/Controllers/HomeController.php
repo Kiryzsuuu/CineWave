@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Movie;
+use App\Models\Watchlist;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -46,9 +47,12 @@ class HomeController extends Controller
 
     public function myList()
     {
-        // Get user's watchlist from session or database
-        $watchlist = session('watchlist', []);
-        $movies = Movie::whereIn('id', $watchlist)->get();
+        // Get user's watchlist from database
+        $watchlistIds = Watchlist::where('user_id', auth()->id())
+            ->pluck('movie_id')
+            ->toArray();
+        
+        $movies = Movie::whereIn('_id', $watchlistIds)->get();
 
         return view('mylist', compact('movies'));
     }

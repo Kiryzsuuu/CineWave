@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'sqlite'),
+    'default' => env('DB_CONNECTION', 'mongodb'),
 
     /*
     |--------------------------------------------------------------------------
@@ -111,6 +111,21 @@ return [
             'prefix_indexes' => true,
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
+        ],
+
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'dsn' => env('MONGODB_DSN', 'mongodb://127.0.0.1:27017'),
+            'database' => env('MONGODB_DATABASE', 'cinewave'),
+            'options' => [
+                'appName' => env('MONGODB_APP_NAME', 'CNW'),
+            ],
+            'driver_options' => [
+                'allow_invalid_hostname' => true,
+                'tls' => true,
+                'tlsAllowInvalidCertificates' => true,
+                'tlsAllowInvalidHostnames' => true,
+            ],
         ],
 
     ],

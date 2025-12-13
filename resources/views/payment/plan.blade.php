@@ -38,7 +38,7 @@
                 <form action="{{ route('payment.plan') }}" method="POST">
                     @csrf
                     <input type="hidden" name="plan" value="basic">
-                    <button type="submit" class="w-full py-3 bg-gray-700 hover:bg-primary text-white font-semibold rounded transition">
+                    <button type="submit" class="relative z-10 w-full py-3 bg-gray-700 hover:bg-primary text-white font-semibold rounded transition cursor-pointer">
                         Select Basic
                     </button>
                 </form>
@@ -80,7 +80,7 @@
                 <form action="{{ route('payment.plan') }}" method="POST">
                     @csrf
                     <input type="hidden" name="plan" value="standard">
-                    <button type="submit" class="w-full py-3 bg-white text-primary font-semibold rounded transition hover:bg-gray-100">
+                    <button type="submit" class="relative z-10 w-full py-3 bg-white text-primary font-semibold rounded transition hover:bg-gray-100 cursor-pointer">
                         Select Standard
                     </button>
                 </form>
@@ -125,7 +125,7 @@
                 <form action="{{ route('payment.plan') }}" method="POST">
                     @csrf
                     <input type="hidden" name="plan" value="premium">
-                    <button type="submit" class="w-full py-3 bg-gray-700 hover:bg-primary text-white font-semibold rounded transition">
+                    <button type="submit" class="relative z-10 w-full py-3 bg-gray-700 hover:bg-primary text-white font-semibold rounded transition cursor-pointer">
                         Select Premium
                     </button>
                 </form>
