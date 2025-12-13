@@ -115,7 +115,7 @@ return [
 
         'mongodb' => [
             'driver' => 'mongodb',
-            'dsn' => env('MONGODB_DSN', 'mongodb://127.0.0.1:27017'),
+            'dsn' => rawurldecode(env('MONGODB_DSN', 'mongodb://127.0.0.1:27017')),
             'database' => env('MONGODB_DATABASE', env('DB_DATABASE', 'cinewave')),
             'options' => [
                 'appName' => env('MONGODB_APP_NAME', 'CNW'),

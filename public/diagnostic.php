@@ -40,7 +40,7 @@ foreach ($paths as $path) {
 
 // Test MongoDB Connection
 echo "\n5. MongoDB Connection Test:\n";
-$dsn = urldecode(getenv('MONGODB_DSN') ?: $_ENV['MONGODB_DSN'] ?? $_SERVER['MONGODB_DSN'] ?? '');
+$dsn = rawurldecode(getenv('MONGODB_DSN') ?: $_ENV['MONGODB_DSN'] ?? $_SERVER['MONGODB_DSN'] ?? '');
 if (!empty($dsn)) {
     try {
         if (extension_loaded('mongodb')) {
