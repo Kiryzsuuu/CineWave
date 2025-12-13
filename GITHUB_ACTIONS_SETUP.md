@@ -27,7 +27,8 @@ Tambahkan secrets berikut (klik "New repository secret" untuk setiap item):
 **Nama:** `MONGODB_DSN`  
 **Value:** 
 ```
-mongodb://cinewave-db:WWsiTKuBl0ULG5VnRxTAxZKIbsI2AQWZi36YF4KmiKx0AVmRmlNechaRKN4z8wZsZNZd2DECXN04ACDb7AGy9w==@cinewave-db.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@cinewave-db@
+Dapatkan dari: az cosmosdb keys list --resource-group WebOpet --name cinewave-db --type connection-strings
+Atau jalankan: .\setup-github-secrets.ps1 (otomatis copy ke clipboard)
 ```
 
 #### Secret 3: APP_KEY
@@ -48,7 +49,7 @@ maskiryz23@gmail.com
 **Nama:** `MAIL_PASSWORD`  
 **Value:** 
 ```
-aeth lqgk huov pdsp
+[Your Gmail App Password - jalankan setup-github-secrets.ps1]
 ```
 
 ### 3. Commit & Push

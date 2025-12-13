@@ -1,4 +1,0 @@
-{
-  "MONGODB_DSN": "mongodb://cinewave-db:WWsiTKuBl0ULG5VnRxTAxZKIbsI2AQWZi36YF4KmiKx0AVmRmlNechaRKN4z8wZsZNZd2DECXN04ACDb7AGy9w==@cinewave-db.mongo.cosmos.azure.com:10255/cinewave?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@cinewave-db@",
-  "MONGODB_DATABASE": "cinewave"
-}

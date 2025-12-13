@@ -52,7 +52,7 @@ Write-Host "`nIMPORTANT: You must set the following App Settings in Azure Portal
 Write-Host "1. Go to: https://portal.azure.com"
 Write-Host "2. Navigate to: CineWave App Service > Configuration > Application settings"
 Write-Host "3. Add these settings:"
-Write-Host "   - MONGODB_DSN = mongodb://cinewave-db:WWsiTKuBl0ULG5VnRxTAxZKIbsI2AQWZi36YF4KmiKx0AVmRmlNechaRKN4z8wZsZNZd2DECXN04ACDb7AGy9w==@cinewave-db.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@cinewave-db@" -ForegroundColor Yellow
+Write-Host "   - MONGODB_DSN = [Get from Azure: az cosmosdb keys list --resource-group WebOpet --name cinewave-db --type connection-strings]" -ForegroundColor Yellow
 Write-Host "   - DB_CONNECTION = mongodb" -ForegroundColor Yellow
 Write-Host "   - MONGODB_DATABASE = cinewave" -ForegroundColor Yellow
 Write-Host "   - APP_ENV = production" -ForegroundColor Yellow
