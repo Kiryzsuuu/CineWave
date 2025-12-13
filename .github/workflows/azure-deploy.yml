@@ -6,6 +6,10 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  AZURE_WEBAPP_NAME: CineWave
+  PHP_VERSION: '8.2'
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -17,13 +21,48 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.2'
+        php-version: ${{ env.PHP_VERSION }}
         extensions: mongodb, mbstring, xml, ctype, json, bcmath
+        tools: composer:v2
+        coverage: none
         
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20'
+        cache: 'npm'
+        
+    - name: Create .env file
+      run: |
+        cat > .env << 'EOF'
+        APP_NAME=CineWave
+        APP_ENV=production
+        APP_KEY=${{ secrets.APP_KEY }}
+        APP_DEBUG=false
+        APP_URL=https://cinewave.azurewebsites.net
+        
+        LOG_CHANNEL=stack
+        LOG_LEVEL=error
+        
+        DB_CONNECTION=mongodb
+        MONGODB_DSN=${{ secrets.MONGODB_DSN }}
+        MONGODB_DATABASE=cinewave
+        
+        SESSION_DRIVER=database
+        SESSION_LIFETIME=120
+        
+        CACHE_STORE=database
+        QUEUE_CONNECTION=database
+        
+        MAIL_MAILER=smtp
+        MAIL_HOST=smtp.gmail.com
+        MAIL_PORT=587
+        MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}
+        MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}
+        MAIL_ENCRYPTION=tls
+        MAIL_FROM_ADDRESS=${{ secrets.MAIL_USERNAME }}
+        MAIL_FROM_NAME=CineWave
+        EOF
         
     - name: Install Composer dependencies
       run: composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-req=ext-mongodb
@@ -34,8 +73,37 @@ jobs:
     - name: Build assets
       run: npm run build
       
+    - name: Optimize Laravel
+      run: |
+        php artisan config:cache
+        php artisan route:cache
+        php artisan view:cache
+    
+    - name: Prepare deployment package
+      run: |
+        mkdir -p deployment
+        cp -r . deployment/
+        cd deployment
+        
+        # Ensure storage structure
+        mkdir -p storage/framework/{sessions,views,cache}
+        mkdir -p storage/logs
+        chmod -R 775 storage bootstrap/cache
+        
+        # Create deployment archive
+        zip -r ../deploy.zip . -x "*.git*" "*.md" "tests/*" "node_modules/*" ".github/*"
+        
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'CineWave'
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: deploy.zip
+    
+    - name: Warm up application
+      run: |
+        echo "Waiting for deployment to complete..."
+        sleep 30
+        curl -sS -I https://cinewave.azurewebsites.net || echo "App starting up..."
+        sleep 10
+        curl -sS https://cinewave.azurewebsites.net || echo "Deployment in progress"
