@@ -1,0 +1,37 @@
+# render.yaml - Render Infrastructure as Code
+# Deploy via: render-cli up
+
+services:
+  - type: web
+    name: cinewave
+    runtime: docker
+    region: singapore
+    plan: free
+    repo: https://github.com/Kiryzsuuu/CineWave
+    branch: main
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /
+    envVars:
+      - key: APP_NAME
+        value: CineWave
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        value: base64:R9a6TjjJXgSy5K4dieTJJuDAfACNgEAKOr/Pe27uqP8=
+      - key: DB_CONNECTION
+        value: mongodb
+      - key: MONGODB_DATABASE
+        value: cinewave
+      - key: MONGODB_DSN
+        value: mongodb://cinewave-db:WWsiTKuBl0ULG5VnRxTAxZKIbsI2AQWZi36YF4KmiKx0AVmRmlNechaRKN4z8wZsZNZd2DECXN04ACDb7AGy9w==@cinewave-db.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@cinewave-db@
+      - key: SESSION_DRIVER
+        value: cookie
+      - key: CACHE_STORE
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: LOG_CHANNEL
+        value: stderr
